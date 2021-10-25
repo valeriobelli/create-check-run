@@ -12,17 +12,15 @@ describe('createCheckRun', () => {
       installationId,
       privateKey,
     })
-    const annotations: Annotation[] = [
-      { annotation_level: 'failure', message: 'This is a message', start_line: 9, end_line: 10, path: 'src/index.ts' },
-    ]
+    const annotations: Annotation[] = []
 
     const checkRunId = await createCheckRun({
       annotations,
       appId,
-      checkTitle: 'This is a title',
-      errorCount: 1,
+      checkTitle: "I'm checking if everything is correctly set up",
+      errorCount: 0,
       installationId,
-      name: 'Name',
+      name: 'Smoke test',
       privateKey,
     })
 
@@ -32,6 +30,7 @@ describe('createCheckRun', () => {
       check_run_id: checkRunId,
     })
 
-    expect(checkRunGot).not.toBeInstanceOf(Error)
+    expect(checkRunId).toBeGreaterThan(0)
+    expect(checkRunGot.data.pull_requests[0]).not.toBeUndefined()
   })
 })
