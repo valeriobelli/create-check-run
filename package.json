@@ -57,9 +57,10 @@
     "bin",
     "lib",
     "license",
-    "package.json"
+    "package.json",
+    "readme.md"
   ],
-  "homepage": "https://github.com/git@github.com:DrugoLeB/check-run.git",
+  "homepage": "https://github.com/DrugoLeB/create-check-run",
   "license": "MIT",
   "main": "lib/index.js",
   "oclif": {
@@ -67,6 +68,7 @@
   },
   "repository": "git@github.com:DrugoLeB/check-run.git",
   "scripts": {
+    "prebuild": "rm -rf lib",
     "build": "ttsc -p tsconfig.code.json",
     "lint": "eslint src --ext .ts",
     "postinstall": "husky install",
