@@ -1,0 +1,44 @@
+name: CI
+
+on: 
+  pull_request:
+    branches:
+      - hotfix/*
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - id: 'install'
+        name: install
+        run: yarn
+      - id: 'build'
+        name: build
+        run: yarn build
+        if: ${{ steps.install.outcome == 'success' }}
+      - id: 'lint'
+        name: lint
+        run: yarn lint
+        if: ${{ steps.build.outcome == 'success' }}
+      - id: 'typecheck'
+        name: typecheck
+        run: yarn typecheck
+        if: ${{ steps.typecheck.outcome == 'success' }}
+      - name: test
+        run: yarn test
+        if: ${{ steps.typecheck.outcome == 'success' }}
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
