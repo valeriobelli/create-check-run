@@ -1,13 +1,14 @@
 import envCi from 'env-ci'
 import * as C from 'fp-ts/Console'
 import * as E from 'fp-ts/Either'
+import { annotationsBatchSize } from './constants'
 import { Annotation, Check } from './types'
-import { chunk } from './utils/chunk'
 import { deepMerge } from './utils/deepMerge'
 import { defineCheckRun } from './utils/defineCheckRun'
 import { getAuthenticatedApp } from './utils/getAuthenticatedApp'
 import { getRepositoryParameters } from './utils/getRepositoryParameters'
 import { instantiateOctokit } from './utils/instantiateOctokit'
+import { updateCheckRun } from './utils/updateCheckRun'
 
 type CheckOptions = {
   /** The annotations to add on the GitHub check run */
@@ -53,7 +54,7 @@ export default async function createCheckRun({
     (warningCount > 0 && 'The current Pull Request contains some warnings.') ||
     'The current Pull Request correctly passed the checks!'
 
-  const [firstAnnotationsBatch, ...annotationsBatches] = chunk(annotations, 50)
+  const annotationsBatch = annotations.slice(0, annotationsBatchSize)
 
   const { owner, repo } = getRepositoryParameters()
 
@@ -73,7 +74,7 @@ export default async function createCheckRun({
     completed_at,
     conclusion,
     output: {
-      annotations: firstAnnotationsBatch,
+      annotations: annotationsBatch,
     },
   })
 
@@ -83,22 +84,14 @@ export default async function createCheckRun({
     throw createCheckResult.left
   }
 
-  const {
-    data: { id: check_run_id },
-  } = createCheckResult.right
+  const { id: check_run_id } = createCheckResult.right.data
 
-  const updateRuns = annotationsBatches.map((annotationsBatch) =>
-    octokit.checks.update(
-      deepMerge(templateCheck, {
-        check_run_id,
-        output: {
-          annotations: annotationsBatch,
-        },
-      })
-    )
-  )
-
-  await Promise.all(updateRuns)
+  await updateCheckRun({
+    annotations: annotations.slice(annotationsBatchSize),
+    checkRunId: check_run_id,
+    octokit,
+    templateCheck,
+  })
 
   return check_run_id
 }
