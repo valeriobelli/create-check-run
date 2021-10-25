@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [".eslintrc.js", "*.js", "*.ts", "src", "**/__tests__/**/*.ts", "types"]
+}

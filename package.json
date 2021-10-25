@@ -1,55 +1,74 @@
 {
   "name": "@drugolebowski/create-check-run",
-  "version": "0.1.0",
   "description": "Create a GitHub check run.",
-  "license": "MIT",
-  "repository": "git@github.com:DrugoLeB/check-run.git",
+  "version": "0.1.0",
   "author": "Valerio Belli <belli.valerio@gmail.com>",
-  "main": "lib/index.js",
-  "scripts": {
-    "build": "tsc",
-    "start": "yarn build --watch",
-    "lint": "eslint src --ext .ts",
-    "typecheck": "tsc --noEmit",
-    "test": "jest"
+  "bin": {
+    "create-check-run": "./bin/run"
   },
-  "files": [
-    "lib",
-    "license",
-    "package.json"
-  ],
+  "bugs": "https://github.com/git@github.com:DrugoLeB/check-run.git/issues",
   "dependencies": {
+    "@oclif/command": "1.8.0",
+    "@oclif/config": "1.17.0",
+    "@oclif/plugin-help": "3.2.3",
     "@octokit/app": "12.0.5",
+    "@octokit/core": "3.5.1",
     "@octokit/auth-app": "3.6.1",
     "@octokit/plugin-rest-endpoint-methods": "5.13.0",
     "@octokit/rest": "18.12.0",
     "env-ci": "5.0.2",
     "execa": "5.1.1",
-    "fp-ts": "2.11.5"
+    "fp-ts": "2.11.5",
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@babel/core": "7.15.8",
     "@babel/preset-env": "7.15.8",
     "@babel/preset-typescript": "7.15.0",
+    "@oclif/dev-cli": "1.26.0",
     "@types/env-ci": "3.1.1",
     "@types/eslint": "7.28.1",
     "@types/jest": "27.0.2",
+    "@types/node": "12.12.6",
     "@typescript-eslint/eslint-plugin": "5.0.0",
     "@typescript-eslint/parser": "5.0.0",
     "@zerollup/ts-transform-paths": "1.7.18",
     "dotenv": "10.0.0",
-    "eslint": "8.0.1",
+    "eslint": "8.1.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-import-resolver-typescript": "2.5.0",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-prettier": "4.0.0",
-    "husky": "7.0.2",
+    "husky": "7.0.4",
     "jest": "27.3.1",
     "lint-staged": "11.2.3",
     "prettier": "2.4.1",
     "ts-jest": "27.0.7",
+    "ts-node": "10.4.0",
     "ttypescript": "1.5.12",
     "typescript": "4.4.4"
-  }
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "license",
+    "package.json"
+  ],
+  "homepage": "https://github.com/git@github.com:DrugoLeB/check-run.git",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "repository": "git@github.com:DrugoLeB/check-run.git",
+  "scripts": {
+    "build": "ttsc -p tsconfig.code.json",
+    "lint": "eslint src --ext .ts",
+    "postinstall": "husky install",
+    "start": "yarn build --watch",
+    "test": "jest",
+    "typecheck": "ttsc --noEmit"
+  },
+  "types": "lib/index.d.ts"
 }

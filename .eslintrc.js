@@ -43,7 +43,7 @@ const config = {
         extensions: ['.js', '.ts'],
       },
       typescript: {
-        project: path.join(__dirname, 'tsconfig.json'),
+        project: path.join(__dirname, 'tsconfig.eslint.json'),
       },
     },
   },
