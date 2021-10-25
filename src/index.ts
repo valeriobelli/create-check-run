@@ -39,7 +39,7 @@ export default async function createCheckRun({
   warningCount = 0,
 }: CheckOptions) {
   if (!envCi().isCi) {
-    return
+    return -1
   }
 
   const octokit = instantiateOctokit({ appId, installationId, privateKey })

@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - hotfix/*
-      - master
+      - main
 
 jobs:
   build:
@@ -12,10 +12,13 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x, 14.x]
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -31,13 +34,9 @@ jobs:
         name: lint
         run: yarn lint
         if: ${{ steps.build.outcome == 'success' }}
-      - id: 'typecheck'
-        name: typecheck
-        run: yarn typecheck
-        if: ${{ steps.typecheck.outcome == 'success' }}
       - name: test
         run: yarn test
-        if: ${{ steps.typecheck.outcome == 'success' }}
+        if: ${{ steps.build.outcome == 'success' }}
         env:
           APP_ID: ${{ secrets.APP_ID }}
           INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
