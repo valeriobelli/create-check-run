@@ -11,30 +11,34 @@ import { instantiateOctokit } from './utils/instantiateOctokit'
 import { updateCheckRun } from './utils/updateCheckRun'
 
 type CheckOptions = {
-  /** The annotations to add on the GitHub check run */
+  /**
+   * The annotations to add on the GitHub check.
+   * Adds information from your analysis to specific lines of code.
+   * Annotations are visible on GitHub in the Checks and Files changed tab of the pull request.
+   */
   annotations: Array<Annotation>
-  /** The title of the Check Run that is shown on checks section */
-  checkRunName: string
-  /** The GitHub app id to use for creating the check run */
+  /** The GitHub app id to use for creating the check */
   appId?: number
+  /** The name of the check. For example, "GitHub Jest reporter". */
+  checkName: string
+  /** The title of the check run. */
+  checkRunTitle: string
   /** The GitHub app repo installation id */
   installationId?: number
   /** The GitHub private key for authenticating the requests */
   privateKey?: string
-  /** The title of the Check Run that is shown on checks section */
-  title: string
 }
 
 export default async function createCheckRun({
   annotations,
   appId = Number(process.env.APP_ID!),
-  checkRunName,
+  checkName,
+  checkRunTitle,
   installationId = Number(process.env.INSTALLATION_ID!),
   privateKey = process.env.PRIVATE_KEY!,
-  title,
 }: CheckOptions) {
   if (!envCi().isCi) {
-    return -1
+    return 0
   }
 
   const octokit = instantiateOctokit({ appId, installationId, privateKey })
@@ -62,7 +66,7 @@ export default async function createCheckRun({
     owner,
     repo,
     output: {
-      title,
+      title: checkRunTitle,
       summary,
     },
   }
@@ -70,7 +74,7 @@ export default async function createCheckRun({
   const completed_at = new Date().toISOString()
   const conclusion = errorCount > 0 ? 'failure' : 'success'
   const check: Check = deepMerge(templateCheck, {
-    name: checkRunName,
+    name: checkName,
     completed_at,
     conclusion,
     output: {
