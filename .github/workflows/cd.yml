@@ -1,9 +1,8 @@
-name: CI
+name: CD
 
 on:
-  pull_request:
+  push:
     branches:
-      - hotfix/*
       - main
 
 jobs:
@@ -12,13 +11,10 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
+        node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha }}
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -30,14 +26,6 @@ jobs:
         name: build
         run: yarn build
         if: ${{ steps.install.outcome == 'success' }}
-      - id: 'lint'
-        name: lint
-        run: yarn lint
+      - id: 'publish'
+        run: yarn publish
         if: ${{ steps.build.outcome == 'success' }}
-      - name: test
-        run: yarn test
-        if: ${{ steps.build.outcome == 'success' }}
-        env:
-          APP_ID: ${{ secrets.APP_ID }}
-          INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
