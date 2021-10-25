@@ -14,7 +14,7 @@ describe('getCommitShaFromRef', () => {
     execaError.stderr = ''
     execaError.stdout = ''
 
-    mocked(execa).mockRejectedValue(execaError as any)
+    mocked(execa).mockRejectedValue(execaError as never)
 
     const result = await getCommitShaFromRef('HEAD')()
 
@@ -32,7 +32,7 @@ describe('getCommitShaFromRef', () => {
   })
 
   it('returns as expected the commit sha', async () => {
-    mocked(execa).mockResolvedValue({ stdout: 'thisisamockedsha' } as any)
+    mocked(execa).mockResolvedValue({ stdout: 'thisisamockedsha' } as never)
 
     const result = await getCommitShaFromRef('HEAD')()
 
