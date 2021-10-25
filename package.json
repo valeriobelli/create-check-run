@@ -6,7 +6,7 @@
   "bin": {
     "create-check-run": "./bin/run"
   },
-  "bugs": "https://github.com/git@github.com:DrugoLeB/check-run.git/issues",
+  "bugs": "https://github.com/DrugoLeB/create-check-run/issues",
   "dependencies": {
     "@oclif/command": "1.8.0",
     "@oclif/config": "1.17.0",
@@ -62,6 +62,9 @@
   "homepage": "https://github.com/git@github.com:DrugoLeB/check-run.git",
   "license": "MIT",
   "main": "lib/index.js",
+  "oclif": {
+    "bin": "create-check-run"
+  },
   "repository": "git@github.com:DrugoLeB/check-run.git",
   "scripts": {
     "build": "ttsc -p tsconfig.code.json",
