@@ -10,33 +10,27 @@ import { getRepositoryParameters } from './utils/getRepositoryParameters'
 import { instantiateOctokit } from './utils/instantiateOctokit'
 
 type CheckOptions = {
-  /** The annotations to be posted to the GitHub check */
+  /** The annotations to add on the GitHub check run */
   annotations: Array<Annotation>
-  /** The number or errors generated during the run */
-  errorCount: number
-  /** The number or warnings generated during the run */
-  warningCount?: number
-  /** The GitHub app id to create the check with */
-  appId: number
+  /** The title of the Check Run that is shown on checks section */
+  checkRunName: string
+  /** The GitHub app id to use for creating the check run */
+  appId?: number
   /** The GitHub app repo installation id */
-  installationId: number
-  /** The GitHub private key to create the check with */
-  privateKey: string
-  /** The name of the tool thats running */
-  checkTitle: string
-  /** The title of the check mark */
-  name: string
+  installationId?: number
+  /** The GitHub private key for authenticating the requests */
+  privateKey?: string
+  /** The title of the Check Run that is shown on checks section */
+  title: string
 }
 
 export default async function createCheckRun({
   annotations,
-  appId,
-  checkTitle,
-  errorCount,
-  installationId,
-  name,
-  privateKey,
-  warningCount = 0,
+  appId = Number(process.env.APP_ID!),
+  checkRunName,
+  installationId = Number(process.env.INSTALLATION_ID!),
+  privateKey = process.env.PRIVATE_KEY!,
+  title,
 }: CheckOptions) {
   if (!envCi().isCi) {
     return -1
@@ -51,10 +45,13 @@ export default async function createCheckRun({
     throw result.left
   }
 
+  const errorCount = annotations.filter(({ annotation_level }) => annotation_level === 'failure').length
+  const warningCount = annotations.filter(({ annotation_level }) => annotation_level === 'warning').length
+
   const summary =
-    (errorCount > 0 && 'Your project seems to have some errors.') ||
-    (warningCount > 0 && 'Your project seems to have some warnings.') ||
-    'Your project correctly passed the needed checks!'
+    (errorCount > 0 && 'The current Pull Request contains some errors.') ||
+    (warningCount > 0 && 'The current Pull Request contains some warnings.') ||
+    'The current Pull Request correctly passed the checks!'
 
   const [firstAnnotationsBatch, ...annotationsBatches] = chunk(annotations, 50)
 
@@ -64,7 +61,7 @@ export default async function createCheckRun({
     owner,
     repo,
     output: {
-      title: checkTitle,
+      title,
       summary,
     },
   }
@@ -72,7 +69,7 @@ export default async function createCheckRun({
   const completed_at = new Date().toISOString()
   const conclusion = errorCount > 0 ? 'failure' : 'success'
   const check: Check = deepMerge(templateCheck, {
-    name,
+    name: checkRunName,
     completed_at,
     conclusion,
     output: {
