@@ -31,13 +31,9 @@ jobs:
         name: lint
         run: yarn lint
         if: ${{ steps.build.outcome == 'success' }}
-      - id: 'typecheck'
-        name: typecheck
-        run: yarn typecheck
-        if: ${{ steps.lint.outcome == 'success' }}
       - name: test
         run: yarn test
-        if: ${{ steps.typecheck.outcome == 'success' }}
+        if: ${{ steps.build.outcome == 'success' }}
         env:
           APP_ID: ${{ secrets.APP_ID }}
           INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
