@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - hotfix/*
-      - master
+      - main
 
 jobs:
   build:
