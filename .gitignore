@@ -1,3 +1,6 @@
-node_modules
-lib
+*-debug.log
+*-error.log
 .env
+/lib
+lib
+node_modules

@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+const { CreateCheckRun } = require('../lib/cli')
+
+CreateCheckRun.run().catch(require('@oclif/errors/handle'))

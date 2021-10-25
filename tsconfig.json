@@ -19,7 +19,7 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es5"
+    "target": "es2017"
   },
   "include": [".eslintrc.js", "*.js", "*.ts", "src", "types"]
 }
