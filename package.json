@@ -6,14 +6,15 @@
   "bin": {
     "create-check-run": "./bin/run"
   },
-  "bugs": "https://github.com/git@github.com:DrugoLeB/check-run.git/issues",
+  "bugs": "https://github.com/DrugoLeB/create-check-run/issues",
   "dependencies": {
     "@oclif/command": "1.8.0",
     "@oclif/config": "1.17.0",
+    "@oclif/errors": "1.3.5",
     "@oclif/plugin-help": "3.2.3",
     "@octokit/app": "12.0.5",
-    "@octokit/core": "3.5.1",
     "@octokit/auth-app": "3.6.1",
+    "@octokit/core": "3.5.1",
     "@octokit/plugin-rest-endpoint-methods": "5.13.0",
     "@octokit/rest": "18.12.0",
     "env-ci": "5.0.2",
@@ -56,13 +57,18 @@
     "bin",
     "lib",
     "license",
-    "package.json"
+    "package.json",
+    "readme.md"
   ],
-  "homepage": "https://github.com/git@github.com:DrugoLeB/check-run.git",
+  "homepage": "https://github.com/DrugoLeB/create-check-run",
   "license": "MIT",
   "main": "lib/index.js",
+  "oclif": {
+    "bin": "create-check-run"
+  },
   "repository": "git@github.com:DrugoLeB/check-run.git",
   "scripts": {
+    "prebuild": "rm -rf lib",
     "build": "ttsc -p tsconfig.code.json",
     "lint": "eslint src --ext .ts",
     "postinstall": "husky install",

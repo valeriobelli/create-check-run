@@ -9,7 +9,7 @@ export type Annotation = {
   end_line: number
   /** A short description of the feedback for these lines of code. The maximum size is 64 KB. */
   message: string
-  /** The path of the file to add an annotation to. For example, assets/css/main.css. */
+  /** The path of the file to add an annotation to. The path must be relative to the root of the project. For example, src/assets/css/main.css. */
   path: string
   /** The start line of the annotation. */
   start_line: number

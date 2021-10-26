@@ -17,10 +17,9 @@ describe('createCheckRun', () => {
     const checkRunId = await createCheckRun({
       annotations,
       appId,
-      checkTitle: "I'm checking if everything is correctly set up",
-      errorCount: 0,
+      checkName: 'Smoke test',
+      checkRunTitle: "I'm checking if everything is correctly set up",
       installationId,
-      name: 'Smoke test',
       privateKey,
     })
 
