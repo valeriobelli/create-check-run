@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "lib": ["esnext"],
+    "module": "commonjs",
+    "rootDir": "./examples",
+    "strict": true,
+    "target": "es2017"
+  },
+  "include": ["examples"]
+}

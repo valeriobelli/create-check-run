@@ -1,6 +1,6 @@
 *-debug.log
 *-error.log
 .env
-/lib
+examples/**/*.js
 lib
 node_modules
