@@ -28,14 +28,16 @@ jobs:
         run: yarn
       - id: 'build'
         name: build
-        run: yarn build
+        run: |
+          yarn build
+          yarn build:examples
         if: ${{ steps.install.outcome == 'success' }}
       - id: 'lint'
         name: lint
         run: yarn lint
         if: ${{ steps.build.outcome == 'success' }}
       - name: test
-        run: yarn test
+        run: yarn test:custom-reporter
         if: ${{ steps.build.outcome == 'success' }}
         env:
           APP_ID: ${{ secrets.APP_ID }}

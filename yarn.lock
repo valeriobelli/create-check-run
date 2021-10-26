@@ -1058,7 +1058,7 @@
     "@jest/types" "^27.2.5"
     expect "^27.3.1"
 
-"@jest/reporters@^27.3.1":
+"@jest/reporters@27.3.1", "@jest/reporters@^27.3.1":
   version "27.3.1"
   resolved "https://registry.yarnpkg.com/@jest/reporters/-/reporters-27.3.1.tgz#28b5c1f5789481e23788048fa822ed15486430b9"
   integrity sha512-m2YxPmL9Qn1emFVgZGEiMwDntDxRRQ2D58tiDQlwYTg5GvbFOKseYCcHtn0WsI8CG4vzPglo3nqbOiT8ySBT/w==
@@ -1098,7 +1098,7 @@
     graceful-fs "^4.2.4"
     source-map "^0.6.0"
 
-"@jest/test-result@^27.3.1":
+"@jest/test-result@27.3.1", "@jest/test-result@^27.3.1":
   version "27.3.1"
   resolved "https://registry.yarnpkg.com/@jest/test-result/-/test-result-27.3.1.tgz#89adee8b771877c69b3b8d59f52f29dccc300194"
   integrity sha512-mLn6Thm+w2yl0opM8J/QnPTqrfS4FoXsXF2WIWJb2O/GBSyResL71BRuMYbYRsGt7ELwS5JGcEcGb52BNrumgg==
